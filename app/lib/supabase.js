@@ -42,3 +42,30 @@ export async function validerBriefing() {
   }
   return true;
 }
+
+// Enregistre le résultat d'un mini-jeu (true = réussi, false = raté)
+// Si le jeu a déjà un résultat, on ne le modifie pas (pas de 2e chance)
+export async function enregistrerResultat(numero, reussi) {
+  const progression = await lireProgression();
+  if (!progression) return false;
+
+  const resultats = progression.resultats || {};
+  const cle = String(numero);
+
+  if (resultats[cle] === true || resultats[cle] === false) {
+    return true; // déjà joué, on ne touche à rien
+  }
+
+  const nouveaux = { ...resultats, [cle]: reussi };
+
+  const { error } = await supabase
+    .from("progression")
+    .update({ resultats: nouveaux })
+    .eq("id", 1);
+
+  if (error) {
+    console.error("Erreur Supabase (résultat) :", error.message);
+    return false;
+  }
+  return true;
+}
