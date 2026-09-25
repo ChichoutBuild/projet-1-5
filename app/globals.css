@@ -33,12 +33,6 @@ body {
   min-height: 100%;
 }
 
-body {
-  min-height: 100vh;
-  min-height: 100dvh;
-}
-
-/* ================= PAGE ================= */
 .page {
   min-height: 100vh;
   min-height: 100dvh;
@@ -46,7 +40,7 @@ body {
   flex-direction: column;
   align-items: center;
   padding: 6vh 5vw;
-  text-align: center;
+  gap: 5vh;
 }
 
 /* ================= TITRES ================= */
@@ -54,25 +48,18 @@ body {
   font-family: "Refuel", serif;
   color: var(--jaune);
   text-transform: uppercase;
+  text-align: center;
   font-size: clamp(3.5rem, 14vw, 10rem);
   line-height: 0.95;
   letter-spacing: 0.02em;
-  font-weight: normal;
 }
 
 .sous-titre {
   font-family: "Refuel", serif;
   color: var(--jaune);
   text-transform: uppercase;
-  font-size: clamp(1.5rem, 5vw, 2.5rem);
-  font-weight: normal;
-  margin-top: 1rem;
-}
-
-.texte {
-  font-size: clamp(1rem, 3.5vw, 1.25rem);
-  line-height: 1.5;
-  margin-top: 1rem;
+  text-align: center;
+  font-size: clamp(2rem, 8vw, 5rem);
 }
 
 /* ================= COMPTE À REBOURS ================= */
@@ -81,55 +68,73 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-content: center;
+  align-items: center;
   gap: clamp(1rem, 4vw, 3rem);
-  width: 100%;
-  margin-top: 4vh;
 }
 
 .bloc {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 22vw;
+  min-width: clamp(4.5rem, 18vw, 11rem);
 }
 
 .chiffre {
   font-family: "Refuel", serif;
   color: var(--blanc);
-  font-size: clamp(4rem, 18vw, 12rem);
+  font-size: clamp(4rem, 17vw, 11rem);
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
 
 .label {
-  font-size: clamp(0.8rem, 2.5vw, 1.1rem);
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  margin-top: 0.5rem;
+  font-size: clamp(0.7rem, 2.5vw, 1rem);
   opacity: 0.8;
+  margin-top: 0.5rem;
 }
 
-/* Sur mobile : 2 blocs par ligne */
-@media (max-width: 600px) {
-  .bloc {
-    min-width: 40vw;
-  }
+/* ================= VIDÉO ================= */
+.video {
+  width: 100%;
+  max-width: 960px;
+  aspect-ratio: 16 / 9;
+  border: 2px solid var(--jaune);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+}
+
+.video iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+.video-vide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem;
+  opacity: 0.7;
 }
 
 /* ================= BOUTON ================= */
 .bouton {
   font-family: "Refuel", serif;
   text-transform: uppercase;
-  font-size: clamp(1.2rem, 4vw, 1.6rem);
+  font-size: clamp(1.3rem, 5vw, 2rem);
+  letter-spacing: 0.05em;
   background: var(--jaune);
   color: var(--noir);
   border: none;
-  border-radius: 12px;
-  padding: 1rem 2.5rem;
-  margin-top: 2rem;
+  border-radius: 999px;
+  padding: 0.8em 2em;
   cursor: pointer;
-  transition: transform 0.15s ease, opacity 0.15s ease;
+  transition: transform 0.15s, opacity 0.15s;
 }
 
 .bouton:hover {
@@ -137,7 +142,20 @@ body {
 }
 
 .bouton:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
+  opacity: 0.5;
+  cursor: wait;
   transform: none;
+}
+
+/* ================= TEXTES ================= */
+.texte {
+  text-align: center;
+  font-size: clamp(0.95rem, 3vw, 1.2rem);
+  line-height: 1.5;
+  max-width: 700px;
+}
+
+.erreur {
+  color: #ff6b6b;
+  text-align: center;
 }
