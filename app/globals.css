@@ -1,0 +1,95 @@
+/* ================= DA PROJET 1.5 ================= */
+:root {
+  --noir: #1B2021;
+  --jaune: #EEB902;
+  --blanc: #EFF1ED;
+}
+
+/* Polices : le site essaie d'abord le fichier .otf, puis le .ttf */
+@font-face {
+  font-family: "Inlanders";
+  src: url("/fonts/inlanders.otf"), url("/fonts/inlanders.ttf");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Nexa";
+  src: url("/fonts/nexa-extralight.otf"), url("/fonts/nexa-extralight.ttf");
+  font-display: swap;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--noir);
+  color: var(--blanc);
+  font-family: "Nexa", system-ui, sans-serif;
+  min-height: 100%;
+}
+
+.page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6vh 5vw;
+  text-align: center;
+}
+
+/* Titres : toujours en majuscules, jaunes, police Inlanders */
+.titre {
+  font-family: "Inlanders", serif;
+  color: var(--jaune);
+  text-transform: uppercase;
+  font-weight: normal;
+  font-size: clamp(3rem, 14vw, 10rem);
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.texte {
+  font-size: clamp(1rem, 3.5vw, 1.4rem);
+  margin-top: 2rem;
+  letter-spacing: 0.05em;
+}
+
+/* ============== COMPTE À REBOURS ============== */
+.countdown {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(0.5rem, 3vw, 3rem);
+  align-content: center;
+  width: 100%;
+  max-width: 1100px;
+}
+
+.bloc { display: flex; flex-direction: column; align-items: center; }
+
+.chiffre {
+  font-family: "Inlanders", serif;
+  color: var(--blanc);
+  font-size: clamp(2.8rem, 15vw, 11rem);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.label {
+  margin-top: 0.8rem;
+  font-size: clamp(0.7rem, 2.5vw, 1.1rem);
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: var(--jaune);
+}
+
+.date-cible {
+  font-size: clamp(0.9rem, 3vw, 1.2rem);
+  letter-spacing: 0.3em;
+  opacity: 0.7;
+}
+
+/* Sur téléphone : les chiffres passent sur 2 lignes (2 blocs par ligne) */
+@media (max-width: 500px) {
+  .countdown { grid-template-columns: repeat(2, 1fr); row-gap: 2.5rem; }
+  .chiffre { font-size: 22vw; }
+}
