@@ -11,7 +11,7 @@ const config = {
   //    (ex : "https://youtu.be/xxxxxxxxxxx" ou "https://www.youtube.com/watch?v=xxxxxxxxxxx")
 
   // 👉👉👉 LIEN DE LA VIDÉO BRIEFING ICI 👈👈👈
-  videoBriefing: "",
+  videoBriefing: "https://www.youtube.com/watch?v=hj_YXfNsaPg",
 
   // 👉👉👉 LIEN DE LA VIDÉO REVEAL POSITIF ICI 👈👈👈
   videoRevealPositif: "",
