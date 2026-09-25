@@ -13,5 +13,5 @@ export const VIDEO_BRIEFING = "";
 // 👉👉👉 COLLE ICI LE LIEN YOUTUBE DU REVEAL POSITIF (4/5 ou plus) 👈👈👈
 export const VIDEO_REVEAL_POSITIF = "";
 
-// 👉👉👉 COLLE ICI LE LIEN YOUTUBE DU REVEAL NÉGATIF (moins de 4/5) 👈👈👈
+// 👉👉👉 COLLE ICI LE LIEN YOUTUBE DU REVEAL NÉGATIF (moins de 4/5 etoiles) 👈👈👈
 export const VIDEO_REVEAL_NEGATIF = "";
