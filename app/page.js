@@ -1,30 +1,42 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import config from "./config";
+import { lireProgression } from "./lib/supabase";
 
+// Calcule le temps restant avant la fin
 function calculerReste(fin) {
-  const diff = Math.max(0, fin - Date.now());
+  const total = fin - Date.now();
+  if (total <= 0) {
+    return { total: 0, jours: 0, heures: 0, minutes: 0, secondes: 0 };
+  }
   return {
-    total: diff,
-    jours: Math.floor(diff / 86400000),
-    heures: Math.floor((diff / 3600000) % 24),
-    minutes: Math.floor((diff / 60000) % 60),
-    secondes: Math.floor((diff / 1000) % 60),
+    total,
+    jours: Math.floor(total / 86400000),
+    heures: Math.floor((total / 3600000) % 24),
+    minutes: Math.floor((total / 60000) % 60),
+    secondes: Math.floor((total / 1000) % 60),
   };
 }
 
-const deuxChiffres = (n) => String(n).padStart(2, "0");
+// Affiche toujours 2 chiffres (ex : 7 -> 07)
+function deuxChiffres(n) {
+  return String(n).padStart(2, "0");
+}
 
-export default function Accueil() {
+export default function CompteARebours() {
+  const router = useRouter();
   const [fin, setFin] = useState(null);
   const [reste, setReste] = useState(null);
 
-  // Détermine la date de fin (mode test possible avec ?test=10)
+  // Détermine la date de fin
+  // Mode test : ton-site.vercel.app/?test=10 -> fin dans 10 secondes
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const test = parseInt(params.get("test"), 10);
-    if (!isNaN(test) && test > 0) {
+    if (!isNaN(test) && test >= 0) {
+      sessionStorage.setItem("modeTest", "1");
       setFin(Date.now() + test * 1000);
     } else {
       setFin(new Date(config.dateFin).getTime());
@@ -39,13 +51,33 @@ export default function Accueil() {
     return () => clearInterval(intervalle);
   }, [fin]);
 
+  const termine = reste && reste.total <= 0;
+
+  // Quand c'est terminé : on regarde dans Supabase où rediriger
+  useEffect(() => {
+    if (!termine) return;
+    let minuteur;
+
+    lireProgression().then((progression) => {
+      if (progression && progression.briefing_valide) {
+        // Briefing déjà validé -> direct au tableau de bord
+        router.replace("/tableau-de-bord");
+      } else {
+        // Sinon : on laisse "C'est l'heure" 3 secondes puis briefing
+        minuteur = setTimeout(() => router.replace("/briefing"), 3000);
+      }
+    });
+
+    return () => clearTimeout(minuteur);
+  }, [termine, router]);
+
   // Pendant le chargement : page vide pour éviter un clignotement
   if (!reste) {
     return <main className="page" />;
   }
 
-  // Fin du compte à rebours (temporaire : on branchera le Briefing ici)
-  if (reste.total <= 0) {
+  // Fin du compte à rebours
+  if (termine) {
     return (
       <main className="page">
         <h1 className="titre">Projet 1.5</h1>
