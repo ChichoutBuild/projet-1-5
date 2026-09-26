@@ -65,20 +65,22 @@ export default function MiniJeu() {
     <main className="page">
       <h1 className="titre">Mini-jeu {numero}</h1>
 
-      <div className="video mini-jeu-video">
-        {id ? (
-          <iframe
-            src={`https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1`}
-            title={`Briefing mini-jeu ${numero}`}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
-        ) : (
-          <div className="video video-vide">
-            Vidéo à venir (lien à renseigner dans app/config.js)
-          </div>
-        )}
-      </div>
+      {numero !== 4 && (
+        <div className="video mini-jeu-video">
+          {id ? (
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1`}
+              title={`Briefing mini-jeu ${numero}`}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          ) : (
+            <div className="video video-vide">
+              Vidéo à venir (lien à renseigner dans app/config.js)
+            </div>
+          )}
+        </div>
+      )}
 
       <h2 className="sous-titre">{jeu.nom}</h2>
 
