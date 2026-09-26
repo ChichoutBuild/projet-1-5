@@ -94,7 +94,7 @@ const config = {
       numero: 5,
       nom: "2 vrais souvenirs, un faux",
       // 👉👉👉 LIEN VIDÉO BRIEFING MINI-JEU 5 ICI 👈👈👈
-      video: "",
+      video: "https://youtu.be/cxySDXoGxq4",
       souvenirs: [
         "Tu m'as déjà envoyé une vidéo pour me dire que j'avais eu une mauvaise réaction",
         "Tu m'as déjà dit que tu trouvais mes genoux sexy",
