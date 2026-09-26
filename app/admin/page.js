@@ -1,338 +1,277 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
-
-/* ============================================================
-   ⚙️ CONFIG — ADAPTE CES NOMS À TA BASE SUPABASE
-   ============================================================ */
-const CONFIG = {
-  table: "progression",
-  idLigne: 1,
-  colonneBriefing: "briefing_valide",
-  colonneGage: "gage",
-  colonneResultats: "resultats",
-  bucketPhotos: "photos",
-  scoreObjectif: 4,
-  miniJeux: [
-    { cle: "jeu1", nom: "Mini-jeu 1 — Mastermind" },
-    { cle: "jeu2", nom: "Mini-jeu 2 — Quiz" },
-    { cle: "jeu3", nom: "Mini-jeu 3 — Quiz" },
-    { cle: "jeu4", nom: "Mini-jeu 4 — Photo", estPhoto: true },
-    { cle: "jeu5", nom: "Mini-jeu 5 — Souvenirs" },
-  ],
-};
+import "./admin.css";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 
-/* ============================================================
-   🧩 PAGE ADMIN
-   ============================================================ */
-export default function AdminPage() {
-  const [connecte, setConnecte] = useState(false);
+export default function PageAdmin() {
+  const [autorise, setAutorise] = useState(false);
   const [codeSaisi, setCodeSaisi] = useState("");
   const [erreurCode, setErreurCode] = useState("");
+  const [chargementCode, setChargementCode] = useState(false);
 
-  const [donnees, setDonnees] = useState(null);
-  const [photos, setPhotos] = useState([]);
+  const [ligne, setLigne] = useState(null);
   const [chargement, setChargement] = useState(false);
   const [message, setMessage] = useState("");
 
-  // Garder la connexion pendant la session
   useEffect(() => {
-    if (sessionStorage.getItem("admin_ok") === "oui") setConnecte(true);
+    if (sessionStorage.getItem("admin_ok") === "1") {
+      setAutorise(true);
+    }
   }, []);
 
-  const seConnecter = () => {
-    if (codeSaisi === process.env.NEXT_PUBLIC_ADMIN_CODE) {
-      sessionStorage.setItem("admin_ok", "oui");
-      setConnecte(true);
-      setErreurCode("");
-    } else {
-      setErreurCode("Code incorrect");
-    }
-  };
+  useEffect(() => {
+    if (autorise) chargerDonnees();
+  }, [autorise]);
 
-  /* ---------- Chargement des données ---------- */
-  const charger = useCallback(async () => {
+  async function verifierCode(e) {
+    e.preventDefault();
+    setErreurCode("");
+    setChargementCode(true);
+    try {
+      const res = await fetch("/api/admin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: codeSaisi }),
+      });
+      const data = await res.json();
+      if (res.ok && data.ok) {
+        sessionStorage.setItem("admin_ok", "1");
+        setAutorise(true);
+      } else {
+        setErreurCode(data.message || "Code incorrect");
+      }
+    } catch {
+      setErreurCode("Impossible de contacter le serveur");
+    } finally {
+      setChargementCode(false);
+    }
+  }
+
+  async function chargerDonnees() {
+    setChargement(true);
     const { data, error } = await supabase
-      .from(CONFIG.table)
+      .from("progression")
       .select("*")
-      .eq("id", CONFIG.idLigne)
+      .eq("id", 1)
       .single();
+    if (!error) setLigne(data);
+    setChargement(false);
+  }
 
-    if (error) {
-      setMessage("❌ Erreur de lecture : " + error.message);
-      return;
-    }
-    setDonnees(data);
+  function afficherMessage(texte) {
+    setMessage(texte);
+    setTimeout(() => setMessage(""), 3000);
+  }
 
-    // Photos du bucket (les plus récentes d'abord)
-    const { data: fichiers } = await supabase.storage
-      .from(CONFIG.bucketPhotos)
-      .list("", { sortBy: { column: "created_at", order: "desc" } });
-
-    if (fichiers) {
-      const liste = fichiers
-        .filter((f) => f.name && !f.name.startsWith("."))
-        .map((f) => ({
-          nom: f.name,
-          url: supabase.storage.from(CONFIG.bucketPhotos).getPublicUrl(f.name)
-            .data.publicUrl,
-        }));
-      setPhotos(liste);
-    }
-  }, []);
-
-  // Rafraîchissement auto toutes les 5 secondes
-  useEffect(() => {
-    if (!connecte) return;
-    charger();
-    const intervalle = setInterval(charger, 5000);
-    return () => clearInterval(intervalle);
-  }, [connecte, charger]);
-
-  /* ---------- Écriture en base ---------- */
-  const mettreAJour = async (changements, texteSucces) => {
+  async function sauvegarderResultats(nouveauxResultats) {
     setChargement(true);
     const { error } = await supabase
-      .from(CONFIG.table)
-      .update(changements)
-      .eq("id", CONFIG.idLigne);
+      .from("progression")
+      .update({ resultats: nouveauxResultats })
+      .eq("id", 1);
     setChargement(false);
-
     if (error) {
-      setMessage("❌ Erreur : " + error.message);
-    } else {
-      setMessage("✅ " + texteSucces);
-      charger();
+      afficherMessage("❌ Erreur : " + error.message);
+      return false;
     }
-    setTimeout(() => setMessage(""), 3000);
-  };
-
-  const resultats = donnees?.[CONFIG.colonneResultats] || {};
-  const gage = donnees?.[CONFIG.colonneGage] || 0;
-  const briefing = donnees?.[CONFIG.colonneBriefing] || false;
-
-  const changerResultat = (cle, valeur, texte) => {
-    const nouveaux = { ...resultats };
-    if (valeur === null) delete nouveaux[cle];
-    else nouveaux[cle] = valeur;
-    mettreAJour({ [CONFIG.colonneResultats]: nouveaux }, texte);
-  };
-
-  const changerGage = (nouvelleValeur) => {
-    mettreAJour(
-      { [CONFIG.colonneGage]: Math.max(0, nouvelleValeur) },
-      "Gages mis à jour"
-    );
-  };
-
-  const toutReinitialiser = () => {
-    if (!confirm("⚠️ Tout réinitialiser ? (briefing, résultats et gages)")) return;
-    mettreAJour(
-      {
-        [CONFIG.colonneResultats]: {},
-        [CONFIG.colonneGage]: 0,
-        [CONFIG.colonneBriefing]: false,
-      },
-      "Progression entièrement réinitialisée"
-    );
-  };
-
-  const supprimerPhoto = async (nom) => {
-    if (!confirm("Supprimer cette photo du stockage ?")) return;
-    const { error } = await supabase.storage
-      .from(CONFIG.bucketPhotos)
-      .remove([nom]);
-    setMessage(error ? "❌ " + error.message : "✅ Photo supprimée");
-    charger();
-    setTimeout(() => setMessage(""), 3000);
-  };
-
-  /* ---------- Calculs ---------- */
-  const score = CONFIG.miniJeux.filter(
-    (j) => resultats[j.cle] === "reussi"
-  ).length;
-  const nbTermines = CONFIG.miniJeux.filter(
-    (j) => resultats[j.cle] === "reussi" || resultats[j.cle] === "echoue"
-  ).length;
-
-  const libelleStatut = (statut) => {
-    switch (statut) {
-      case "reussi":
-        return { texte: "Réussi", classe: "admin-statut-reussi" };
-      case "echoue":
-        return { texte: "Échoué", classe: "admin-statut-echoue" };
-      case "en_attente":
-        return { texte: "En attente", classe: "admin-statut-attente" };
-      default:
-        return { texte: "Pas fait", classe: "admin-statut-vide" };
-    }
-  };
-
-  /* ============================================================
-     🔐 ÉCRAN DE CONNEXION
-     ============================================================ */
-  if (!connecte) {
-    return (
-      <main>
-        <h1 className="titre-principal">Admin</h1>
-        <input
-          type="password"
-          className="champ-code"
-          placeholder="Code admin"
-          value={codeSaisi}
-          onChange={(e) => setCodeSaisi(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && seConnecter()}
-        />
-        {erreurCode && <p className="message-erreur">{erreurCode}</p>}
-        <button className="bouton" onClick={seConnecter}>
-          Entrer
-        </button>
-      </main>
-    );
+    setLigne((prev) => ({ ...prev, resultats: nouveauxResultats }));
+    afficherMessage("✅ Enregistré");
+    return true;
   }
 
-  if (!donnees) {
-    return (
-      <main>
-        <h1 className="titre-principal">Admin</h1>
-        <p className="texte">{message || "Chargement…"}</p>
-      </main>
-    );
+  async function modifierGage(delta) {
+    const actuel = Number(ligne?.resultats?.gage ?? 0);
+    const nouveau = Math.max(0, actuel + delta);
+    await sauvegarderResultats({ ...ligne.resultats, gage: nouveau });
   }
 
-  /* ============================================================
-     📊 DASHBOARD ADMIN
-     ============================================================ */
-  return (
-    <main>
-      <h1 className="titre-principal">Admin</h1>
+  async function validerBriefing(valeur) {
+    setChargement(true);
+    const { error } = await supabase
+      .from("progression")
+      .update({
+        briefing_valide: valeur,
+        briefing_valide_le: valeur ? new Date().toISOString() : null,
+      })
+      .eq("id", 1);
+    setChargement(false);
+    if (error) {
+      afficherMessage("❌ Erreur : " + error.message);
+      return;
+    }
+    setLigne((prev) => ({
+      ...prev,
+      briefing_valide: valeur,
+      briefing_valide_le: valeur ? new Date().toISOString() : null,
+    }));
+    afficherMessage(valeur ? "✅ Briefing validé" : "↩️ Briefing invalidé");
+  }
 
-      {message && <div className="message-info">{message}</div>}
+  async function supprimerCleResultat(cle) {
+    if (!confirm(`Supprimer la clé "${cle}" de resultats ?`)) return;
+    const copie = { ...ligne.resultats };
+    delete copie[cle];
+    await sauvegarderResultats(copie);
+  }
 
-      {/* ---------- Résumé ---------- */}
-      <div className="admin-resume">
-        <div className="bloc-temps">
-          <span className="valeur">{score}/5</span>
-          <span className="label">Score</span>
-        </div>
-        <div className="bloc-temps">
-          <span className="valeur">{nbTermines}/5</span>
-          <span className="label">Terminés</span>
-        </div>
-        <div className="bloc-temps">
-          <span className="valeur">{gage}</span>
-          <span className="label">Gages</span>
+  async function toutReinitialiser() {
+    if (!confirm("⚠️ Remettre TOUTE la progression à zéro ? Cette action est irréversible.")) return;
+    setChargement(true);
+    const { error } = await supabase
+      .from("progression")
+      .update({
+        briefing_valide: false,
+        briefing_valide_le: null,
+        resultats: { gage: 0 },
+      })
+      .eq("id", 1);
+    setChargement(false);
+    if (error) {
+      afficherMessage("❌ Erreur : " + error.message);
+      return;
+    }
+    setLigne((prev) => ({
+      ...prev,
+      briefing_valide: false,
+      briefing_valide_le: null,
+      resultats: { gage: 0 },
+    }));
+    afficherMessage("🔄 Progression réinitialisée");
+  }
+
+  function seDeconnecter() {
+    sessionStorage.removeItem("admin_ok");
+    setAutorise(false);
+    setCodeSaisi("");
+  }
+
+  // --- Écran code ---
+  if (!autorise) {
+    return (
+      <div className="adm-fond">
+        <div className="adm-carte-code">
+          <h1 className="titre-principal">🔒 Admin</h1>
+          <form onSubmit={verifierCode} className="adm-form-code">
+            <input
+              type="password"
+              value={codeSaisi}
+              onChange={(e) => setCodeSaisi(e.target.value)}
+              placeholder="Code secret"
+              className="adm-input"
+              autoFocus
+            />
+            <button type="submit" className="adm-btn adm-btn-jaune" disabled={chargementCode}>
+              {chargementCode ? "Vérification..." : "Entrer"}
+            </button>
+          </form>
+          {erreurCode && <p className="adm-erreur">{erreurCode}</p>}
         </div>
       </div>
+    );
+  }
 
-      <p className="texte">
-        {score >= CONFIG.scoreObjectif
-          ? "🟢 Reveal positif si ça reste comme ça"
-          : "🔴 Reveal négatif pour l'instant"}
-      </p>
+  if (!ligne) {
+    return (
+      <div className="adm-fond">
+        <p className="adm-chargement">Chargement des données...</p>
+      </div>
+    );
+  }
 
-      {/* ---------- Briefing ---------- */}
-      <section className="admin-section">
-        <h2 className="sous-titre">🎬 Briefing</h2>
-        <p className="texte">
-          Statut : <strong>{briefing ? "✅ Validé" : "⏳ Non validé"}</strong>
-        </p>
-        <button
-          className={briefing ? "bouton bouton-secondaire" : "bouton"}
-          disabled={chargement}
-          onClick={() =>
-            mettreAJour(
-              { [CONFIG.colonneBriefing]: !briefing },
-              briefing ? "Briefing annulé" : "Briefing validé"
-            )
-          }
-        >
-          {briefing ? "Annuler la validation" : "Valider le briefing"}
-        </button>
-      </section>
+  const resultats = ligne.resultats || {};
+  const gage = Number(resultats.gage ?? 0);
+  const clesAutres = Object.keys(resultats).filter((k) => k !== "gage");
 
-      {/* ---------- Gages ---------- */}
-      <section className="admin-section">
-        <h2 className="sous-titre">🎯 Gages</h2>
-        <div className="admin-actions">
-          <button className="bouton bouton-secondaire" disabled={chargement}
-            onClick={() => changerGage(gage - 1)}>− 1</button>
-          <button className="bouton" disabled={chargement}
-            onClick={() => changerGage(gage + 1)}>+ 1</button>
-          <button className="bouton bouton-secondaire" disabled={chargement}
-            onClick={() => changerGage(0)}>Remettre à 0</button>
-        </div>
-      </section>
+  return (
+    <div className="adm-fond">
+      <div className="adm-conteneur">
+        <h1 className="titre-principal">🛠️ Dashboard Admin</h1>
 
-      {/* ---------- Mini-jeux ---------- */}
-      <section className="admin-section">
-        <h2 className="sous-titre">🎮 Mini-jeux</h2>
+        {/* Briefing */}
+        <section className="adm-section">
+          <h2 className="adm-section-titre">📋 Briefing</h2>
+          <p className="adm-texte">
+            Statut :{" "}
+            <strong className={ligne.briefing_valide ? "adm-badge-ok" : "adm-badge-attente"}>
+              {ligne.briefing_valide ? "Validé ✅" : "Non validé ⏳"}
+            </strong>
+          </p>
+          {ligne.briefing_valide_le && (
+            <p className="adm-texte-petit">
+              Le {new Date(ligne.briefing_valide_le).toLocaleString("fr-FR")}
+            </p>
+          )}
+          <div className="adm-boutons">
+            <button className="adm-btn adm-btn-jaune" disabled={chargement} onClick={() => validerBriefing(true)}>
+              Valider
+            </button>
+            <button className="adm-btn adm-btn-contour" disabled={chargement} onClick={() => validerBriefing(false)}>
+              Invalider
+            </button>
+          </div>
+        </section>
 
-        {CONFIG.miniJeux.map((jeu) => {
-          const statut = libelleStatut(resultats[jeu.cle]);
-          return (
-            <div key={jeu.cle} className="admin-carte">
-              <div className="admin-carte-entete">
-                <span>{jeu.nom}</span>
-                <span className={`carte-mini-jeu-etiquette ${statut.classe}`}>
-                  {statut.texte}
-                </span>
-              </div>
+        {/* Gages */}
+        <section className="adm-section">
+          <h2 className="adm-section-titre">😈 Gages</h2>
+          <p className="adm-score">{gage}</p>
+          <div className="adm-boutons">
+            <button className="adm-btn adm-btn-rouge" disabled={chargement} onClick={() => modifierGage(1)}>
+              + 1 gage
+            </button>
+            <button className="adm-btn adm-btn-contour" disabled={chargement || gage <= 0} onClick={() => modifierGage(-1)}>
+              - 1 gage
+            </button>
+          </div>
+        </section>
 
-              <div className="admin-actions">
-                <button className="bouton admin-bouton-petit" disabled={chargement}
-                  onClick={() => changerResultat(jeu.cle, "reussi", `${jeu.nom} → réussi`)}>
-                  {jeu.estPhoto ? "Valider" : "Réussi"}
-                </button>
-                <button className="bouton admin-bouton-petit admin-bouton-rouge" disabled={chargement}
-                  onClick={() => changerResultat(jeu.cle, "echoue", `${jeu.nom} → échoué`)}>
-                  {jeu.estPhoto ? "Refuser" : "Échoué"}
-                </button>
-                <button className="bouton bouton-secondaire admin-bouton-petit" disabled={chargement}
-                  onClick={() => changerResultat(jeu.cle, null, `${jeu.nom} réinitialisé`)}>
-                  Réinitialiser
-                </button>
-              </div>
-
-              {/* Photos pour le mini-jeu photo */}
-              {jeu.estPhoto && (
-                <div className="admin-photos">
-                  {photos.length === 0 ? (
-                    <p className="texte">Aucune photo reçue pour l'instant.</p>
-                  ) : (
-                    photos.map((p) => (
-                      <div key={p.nom} className="admin-photo">
-                        <a href={p.url} target="_blank" rel="noreferrer">
-                          <img src={p.url} alt={p.nom} />
-                        </a>
-                        <button className="bouton bouton-secondaire admin-bouton-petit"
-                          onClick={() => supprimerPhoto(p.nom)}>
-                          Supprimer
-                        </button>
-                      </div>
-                    ))
-                  )}
+        {/* Contenu brut de resultats (mini-jeux) */}
+        <section className="adm-section">
+          <h2 className="adm-section-titre">🎮 Progression des mini-jeux</h2>
+          {clesAutres.length === 0 ? (
+            <p className="adm-texte-petit">Aucune donnée de mini-jeu pour l'instant.</p>
+          ) : (
+            <div className="adm-liste-json">
+              {clesAutres.map((cle) => (
+                <div key={cle} className="adm-ligne-json">
+                  <span className="adm-cle-json">{cle}</span>
+                  <span className="adm-val-json">
+                    {typeof resultats[cle] === "object"
+                      ? JSON.stringify(resultats[cle])
+                      : String(resultats[cle])}
+                  </span>
+                  <button
+                    className="adm-btn adm-btn-rouge adm-btn-petit"
+                    disabled={chargement}
+                    onClick={() => supprimerCleResultat(cle)}
+                  >
+                    Supprimer
+                  </button>
                 </div>
-              )}
+              ))}
             </div>
-          );
-        })}
-      </section>
+          )}
+        </section>
 
-      {/* ---------- Zone danger ---------- */}
-      <section className="admin-section">
-        <h2 className="sous-titre">💣 Zone danger</h2>
-        <button className="bouton admin-bouton-rouge" disabled={chargement}
-          onClick={toutReinitialiser}>
-          Tout réinitialiser
-        </button>
-      </section>
-    </main>
+        {/* Zone danger */}
+        <section className="adm-section">
+          <h2 className="adm-section-titre">💣 Zone danger</h2>
+          <button className="adm-btn adm-btn-rouge adm-btn-large" disabled={chargement} onClick={toutReinitialiser}>
+            Tout réinitialiser
+          </button>
+          <button className="adm-btn adm-btn-contour adm-btn-large" onClick={seDeconnecter}>
+            Se déconnecter
+          </button>
+        </section>
+      </div>
+
+      {message && <div className="adm-toast">{message}</div>}
+    </div>
   );
 }
