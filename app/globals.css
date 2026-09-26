@@ -1,244 +1,537 @@
-/* ================= MINI-JEUX : LAYOUT COMMUN ================= */
-.mini-jeu-video {
-  width: 100%;
-  max-width: 960px;
+/* ============================================================
+   🎨 DIRECTION ARTISTIQUE GÉNÉRALE
+   ============================================================ */
+
+:root {
+  --noir: #000000;
+  --noir-clair: #111111;
+  --noir-carte: #1a1a1a;
+  --jaune: #f5c400;
+  --jaune-clair: #ffe066;
+  --blanc: #ffffff;
+  --gris: #555555;
+  --gris-clair: #888888;
+  --gris-fonce: #2a2a2a;
+  --vert: #2ecc71;
+  --orange: #e67e22;
+  --rouge: #e74c3c;
+  --rayon: 14px;
 }
 
-.contenu-jeu {
-  width: 100%;
-  max-width: 700px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
+* {
+  box-sizing: border-box;
 }
 
-.message-info {
-  text-align: center;
-  font-size: clamp(0.9rem, 3vw, 1.1rem);
-  background: var(--noir-clair);
-  border: 2px solid var(--jaune);
-  border-radius: 12px;
-  padding: 1rem 1.5rem;
-  max-width: 700px;
-}
-
-/* ================= MASTERMIND (mini-jeu 1) ================= */
-.mastermind {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-  align-items: center;
-}
-
-.ligne-mastermind {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.case-chiffre {
-  width: clamp(2.5rem, 9vw, 3.5rem);
-  height: clamp(2.5rem, 9vw, 3.5rem);
-  border: 2px solid var(--gris);
-  border-radius: 10px;
-  background: var(--noir-clair);
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--noir);
   color: var(--blanc);
-  font-family: "Refuel", serif;
-  font-size: clamp(1.3rem, 5vw, 1.8rem);
-  text-align: center;
-  outline: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  min-height: 100%;
 }
 
-.case-chiffre:focus {
-  border-color: var(--jaune);
+main {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px 60px;
+  gap: 24px;
 }
 
-.case-chiffre:disabled {
-  opacity: 1;
-}
+/* ============================================================
+   📝 TITRES
+   ============================================================ */
 
-.case-verte {
-  background: #2e7d32 !important;
-  border-color: #2e7d32 !important;
-  color: white !important;
-}
-
-.case-rouge-existe {
-  background: #b8860b !important;
-  border-color: #b8860b !important;
-  color: white !important;
-}
-
-.case-rouge {
-  background: #7a1f1f !important;
-  border-color: #7a1f1f !important;
-  color: white !important;
-}
-
-.bouton-valider-ligne {
-  font-family: "Nexa", sans-serif;
+.titre-principal {
+  font-size: clamp(32px, 8vw, 56px);
+  font-weight: 900;
   text-transform: uppercase;
-  font-size: 0.85rem;
-  letter-spacing: 0.1em;
-  background: var(--jaune);
+  color: var(--jaune);
+  text-align: center;
+  letter-spacing: 1px;
+  margin: 12px 0 0;
+  line-height: 1.1;
+}
+
+.sous-titre {
+  font-size: clamp(20px, 5vw, 28px);
+  font-weight: 700;
+  color: var(--blanc);
+  text-align: center;
+  margin: 0;
+}
+
+.texte {
+  font-size: 16px;
+  color: var(--gris-clair);
+  text-align: center;
+  max-width: 480px;
+  line-height: 1.5;
+}
+
+/* ============================================================
+   🔘 BOUTONS
+   ============================================================ */
+
+.bouton {
+  background-color: var(--jaune);
   color: var(--noir);
   border: none;
-  border-radius: 8px;
-  padding: 0.6em 1em;
+  border-radius: var(--rayon);
+  padding: 16px 28px;
+  font-size: 17px;
+  font-weight: 800;
+  text-transform: uppercase;
   cursor: pointer;
-  white-space: nowrap;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+  width: 100%;
+  max-width: 340px;
 }
 
-.bouton-valider-ligne:disabled {
-  opacity: 0.3;
+.bouton:hover:not(:disabled) {
+  transform: scale(1.03);
+}
+
+.bouton:disabled {
+  background-color: var(--gris);
+  color: var(--gris-clair);
   cursor: not-allowed;
 }
 
-/* ================= QUIZ (mini-jeux 2 et 3) ================= */
-.quiz {
+.bouton-secondaire {
+  background-color: transparent;
+  color: var(--blanc);
+  border: 2px solid var(--gris);
+}
+
+/* ============================================================
+   🔢 PAGE COMPTE À REBOURS
+   ============================================================ */
+
+.compte-a-rebours {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.bloc-temps {
+  background-color: var(--noir-carte);
+  border: 1px solid var(--gris-fonce);
+  border-radius: var(--rayon);
+  padding: 20px 18px;
+  min-width: 80px;
+  text-align: center;
+}
+
+.bloc-temps .valeur {
+  font-size: 40px;
+  font-weight: 900;
+  color: var(--jaune);
+  display: block;
+}
+
+.bloc-temps .label {
+  font-size: 13px;
+  color: var(--gris-clair);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ============================================================
+   🔐 PAGE CODE D'ACCÈS
+   ============================================================ */
+
+.champ-code {
+  background-color: var(--noir-carte);
+  border: 2px solid var(--gris-fonce);
+  border-radius: var(--rayon);
+  color: var(--blanc);
+  font-size: 22px;
+  text-align: center;
+  padding: 16px;
   width: 100%;
+  max-width: 280px;
+  letter-spacing: 4px;
+}
+
+.champ-code:focus {
+  outline: none;
+  border-color: var(--jaune);
+}
+
+.message-erreur {
+  color: var(--rouge);
+  font-weight: 700;
+  text-align: center;
+}
+
+/* ============================================================
+   🎬 VIDÉOS (briefing, mini-jeux, reveal)
+   ============================================================ */
+
+.video-container {
+  width: 100%;
+  max-width: 640px;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--rayon);
+  overflow: hidden;
+  background-color: var(--noir-carte);
+  border: 1px solid var(--gris-fonce);
+}
+
+.video-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+.video-vide {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gris-clair);
+  font-size: 14px;
+  text-align: center;
+  padding: 20px;
+}
+
+/* ============================================================
+   📊 TABLEAU DE BORD — BARRE DE PROGRESSION
+   ============================================================ */
+
+.barre-progression-container {
+  width: 100%;
+  max-width: 480px;
+  position: relative;
+  padding-top: 28px;
+}
+
+.barre-progression-fond {
+  width: 100%;
+  height: 22px;
+  background-color: var(--noir-carte);
+  border: 1px solid var(--gris-fonce);
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.barre-progression-remplie {
+  height: 100%;
+  background-color: var(--jaune);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.barre-progression-objectif {
+  position: absolute;
+  top: -8px;
+  bottom: -8px;
+  width: 3px;
+  background-color: var(--blanc);
+}
+
+.barre-progression-objectif-label {
+  position: absolute;
+  top: -26px;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: var(--blanc);
+  text-transform: uppercase;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   🃏 CARTES MINI-JEUX
+   ============================================================ */
+
+.liste-mini-jeux {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 14px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.carte-mini-jeu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--noir-carte);
+  border: 2px solid var(--jaune);
+  border-radius: var(--rayon);
+  padding: 18px 20px;
+  text-decoration: none;
+  color: var(--blanc);
+  font-size: 18px;
+  font-weight: 700;
+  transition: transform 0.15s ease;
+}
+
+.carte-mini-jeu:hover {
+  transform: scale(1.02);
+}
+
+.carte-mini-jeu-faite {
+  border-color: var(--gris-fonce);
+  color: var(--gris-clair);
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.carte-mini-jeu-verrouillee {
+  border-color: var(--gris-fonce);
+  color: var(--gris);
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.carte-mini-jeu-etiquette {
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background-color: var(--gris-fonce);
+  color: var(--gris-clair);
+}
+
+/* ============================================================
+   🎮 CONTENU GÉNÉRIQUE D'UN MINI-JEU
+   ============================================================ */
+
+.contenu-mini-jeu {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.message-info {
+  background-color: var(--noir-carte);
+  border: 1px solid var(--jaune);
+  border-radius: var(--rayon);
+  padding: 14px 18px;
+  text-align: center;
+  color: var(--jaune-clair);
+  font-weight: 600;
+  max-width: 420px;
+}
+
+/* ============================================================
+   🧠 MASTERMIND — MINI-JEU 1
+   ============================================================ */
+
+.mastermind-grille {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   align-items: center;
 }
 
+.mastermind-ligne {
+  display: flex;
+  gap: 8px;
+}
+
+.mastermind-case {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background-color: var(--noir-carte);
+  border: 2px solid var(--gris-fonce);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--blanc);
+}
+
+.mastermind-case-active {
+  border-color: var(--jaune);
+}
+
+.mastermind-case-verte {
+  background-color: var(--vert);
+  border-color: var(--vert);
+  color: var(--noir);
+}
+
+.mastermind-case-orange {
+  background-color: var(--orange);
+  border-color: var(--orange);
+  color: var(--noir);
+}
+
+.mastermind-case-rouge {
+  background-color: var(--gris-fonce);
+  border-color: var(--gris);
+  color: var(--gris-clair);
+}
+
+/* ============================================================
+   ❓ QUIZ — MINI-JEUX 2 ET 3
+   ============================================================ */
+
 .quiz-question {
-  font-family: "Refuel", serif;
-  color: var(--jaune);
+  font-size: 19px;
+  font-weight: 700;
   text-align: center;
-  font-size: clamp(1.3rem, 5vw, 1.8rem);
-  text-transform: uppercase;
+  color: var(--blanc);
+  margin: 0;
 }
 
 .quiz-propositions {
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
+  gap: 10px;
   width: 100%;
 }
 
-.quiz-option {
-  font-family: "Nexa", sans-serif;
-  font-size: clamp(0.95rem, 3vw, 1.1rem);
-  background: var(--noir-clair);
+.quiz-bouton-proposition {
+  background-color: var(--noir-carte);
+  border: 2px solid var(--gris-fonce);
   color: var(--blanc);
-  border: 2px solid var(--gris);
-  border-radius: 12px;
-  padding: 0.9em 1.2em;
+  border-radius: var(--rayon);
+  padding: 14px 18px;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
   text-align: center;
-  transition: border-color 0.15s, transform 0.15s;
+  transition: border-color 0.15s ease;
 }
 
-.quiz-option:hover {
+.quiz-bouton-proposition:hover {
   border-color: var(--jaune);
 }
 
-.quiz-option-selectionnee {
+.quiz-bouton-proposition-selectionnee {
   border-color: var(--jaune);
-  background: #33301a;
+  background-color: #2a2408;
 }
 
-.quiz-option:disabled {
+.quiz-bouton-proposition-correcte {
+  background-color: var(--vert);
+  border-color: var(--vert);
+  color: var(--noir);
+}
+
+.quiz-bouton-proposition-incorrecte {
+  background-color: var(--rouge);
+  border-color: var(--rouge);
+  color: var(--noir);
+}
+
+.quiz-bouton-proposition:disabled {
   cursor: not-allowed;
 }
 
-.quiz-option-correcte {
-  background: #2e7d32 !important;
-  border-color: #2e7d32 !important;
-  color: white !important;
-}
-
-.quiz-option-incorrecte {
-  background: #7a1f1f !important;
-  border-color: #7a1f1f !important;
-  color: white !important;
-}
-
-.quiz-reponse-affichee {
+.quiz-reponse-correcte-texte {
+  color: var(--vert);
+  font-weight: 700;
   text-align: center;
-  font-size: 0.95rem;
-  opacity: 0.85;
 }
 
-.quiz-photo {
+.quiz-photo-reveal {
   width: 100%;
-  max-width: 400px;
-  border-radius: 12px;
-  border: 2px solid var(--jaune);
-  margin-top: 0.5rem;
+  max-width: 320px;
+  border-radius: var(--rayon);
+  margin-top: 10px;
 }
 
-.quiz-progression {
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  font-size: 0.8rem;
-  opacity: 0.7;
-}
+/* ============================================================
+   📷 MINI-JEU 4 — PHOTO
+   ============================================================ */
 
-/* ================= PHOTO UPLOAD (mini-jeu 4) ================= */
 .zone-photo {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 14px;
   align-items: center;
   width: 100%;
 }
 
-.zone-photo-boutons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-}
-
-.apercu-photo {
-  max-width: 300px;
-  max-height: 300px;
-  border-radius: 12px;
-  border: 2px solid var(--jaune);
-}
-
-.input-cache {
+.zone-photo input[type="file"] {
   display: none;
 }
 
-/* ================= 2 VRAIS 1 FAUX (mini-jeu 5) ================= */
-.souvenirs {
+.bouton-photo-apercu {
   width: 100%;
+  max-width: 280px;
+  border-radius: var(--rayon);
+  border: 2px solid var(--jaune);
+}
+
+/* ============================================================
+   🃏 MINI-JEU 5 — SOUVENIRS
+   ============================================================ */
+
+.liste-souvenirs {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 12px;
+  width: 100%;
 }
 
 .carte-souvenir {
-  background: var(--noir-clair);
-  border: 2px solid var(--gris);
-  border-radius: 14px;
-  padding: 1.3rem 1.5rem;
+  background-color: var(--noir-carte);
+  border: 2px solid var(--gris-fonce);
+  border-radius: var(--rayon);
+  padding: 16px 18px;
+  font-size: 15px;
+  color: var(--blanc);
   cursor: pointer;
-  font-size: clamp(0.95rem, 3vw, 1.1rem);
-  transition: border-color 0.15s, transform 0.15s;
+  transition: border-color 0.15s ease;
 }
 
 .carte-souvenir:hover {
   border-color: var(--jaune);
-  transform: scale(1.01);
 }
 
 .carte-souvenir-selectionnee {
   border-color: var(--jaune);
-  background: #33301a;
+  background-color: #2a2408;
 }
 
 .carte-souvenir-correcte {
-  border-color: #2e7d32;
-  background: #1e3a1f;
+  border-color: var(--vert);
+  background-color: #103d20;
 }
 
 .carte-souvenir-incorrecte {
-  border-color: #7a1f1f;
-  background: #3a1e1e;
+  border-color: var(--rouge);
+  background-color: #3d1010;
+}
+
+/* ============================================================
+   📱 RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 420px) {
+  .mastermind-case {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+
+  .bloc-temps {
+    min-width: 64px;
+    padding: 14px 10px;
+  }
+
+  .bloc-temps .valeur {
+    font-size: 30px;
+  }
 }
