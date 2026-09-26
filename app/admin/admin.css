@@ -1,0 +1,185 @@
+.adm-fond {
+  min-height: 100vh;
+  background: #1B2021;
+  padding: 2rem 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.adm-conteneur {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.adm-carte-code {
+  background: #EFF1ED;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+  align-self: center;
+  margin-top: 3rem;
+}
+
+.adm-form-code {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.adm-input {
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  border: 2px solid #1B2021;
+  font-size: 1rem;
+  background: #fff;
+  color: #1B2021;
+}
+
+.adm-erreur {
+  color: #d63031;
+  margin-top: 0.75rem;
+  font-weight: 600;
+}
+
+.adm-chargement {
+  color: #EFF1ED;
+  text-align: center;
+  margin-top: 3rem;
+  font-size: 1.1rem;
+}
+
+.adm-section {
+  background: #EFF1ED;
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+
+.adm-section-titre {
+  color: #1B2021;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.adm-texte {
+  color: #1B2021;
+  margin-bottom: 0.25rem;
+}
+
+.adm-texte-petit {
+  color: #555;
+  font-size: 0.85rem;
+}
+
+.adm-badge-ok {
+  color: #2e7d32;
+}
+
+.adm-badge-attente {
+  color: #b8860b;
+}
+
+.adm-score {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #1B2021;
+  margin-bottom: 1rem;
+}
+
+.adm-boutons {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.adm-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 0.7rem 1.2rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.adm-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.adm-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.adm-btn-jaune {
+  background: #EEB902;
+  color: #1B2021;
+}
+
+.adm-btn-rouge {
+  background: #d63031;
+  color: #fff;
+}
+
+.adm-btn-contour {
+  background: transparent;
+  color: #1B2021;
+  border: 2px solid #1B2021;
+}
+
+.adm-btn-large {
+  width: 100%;
+  margin-bottom: 0.75rem;
+}
+
+.adm-btn-petit {
+  padding: 0.35rem 0.7rem;
+  font-size: 0.8rem;
+}
+
+.adm-liste-json {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.adm-ligne-json {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #fff;
+  border-radius: 10px;
+  padding: 0.6rem 0.9rem;
+  flex-wrap: wrap;
+}
+
+.adm-cle-json {
+  font-weight: 700;
+  color: #1B2021;
+  min-width: 100px;
+}
+
+.adm-val-json {
+  color: #333;
+  flex: 1;
+  word-break: break-all;
+}
+
+.adm-toast {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1B2021;
+  color: #EEB902;
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
