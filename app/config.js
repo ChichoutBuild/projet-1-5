@@ -65,7 +65,7 @@ const config = {
       numero: 3,
       nom: "Je préfère ?",
       // 👉👉👉 LIEN VIDÉO BRIEFING MINI-JEU 3 ICI 👈👈👈
-      video: "",
+      video: "https://youtu.be/RudoS3jeYDQ",
       questions: [
         {
           question: "Je préfèrerai perdre un bras ou perdre une jambe",
