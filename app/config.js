@@ -10,7 +10,7 @@ const config = {
   // 🎬 Liens YouTube généraux
   videoBriefing: "https://youtu.be/EQ69EeGk3ac",
   videoRevealPositif: "https://youtu.be/H4v2rRfkyqQ",
-  videoRevealNegatif: "",
+  videoRevealNegatif: "https://youtu.be/LIiA7m7_FkQ",
 
   // 🎯 Nombre de mini-jeux réussis nécessaires pour gagner
   objectif: 4,
