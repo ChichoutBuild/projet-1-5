@@ -30,7 +30,7 @@ const config = {
       numero: 2,
       nom: "Quiz sur le couple",
       // 👉👉👉 LIEN VIDÉO BRIEFING MINI-JEU 2 ICI 👈👈👈
-      video: "",
+      video: "https://youtu.be/4vjJhyfHl8w",
       questions: [
         {
           question: "Qui est le plus susceptible ?",
