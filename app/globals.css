@@ -1,537 +1,551 @@
-/* ============================================================
-   🎨 DIRECTION ARTISTIQUE GÉNÉRALE
-   ============================================================ */
-
-:root {
-  --noir: #000000;
-  --noir-clair: #111111;
-  --noir-carte: #1a1a1a;
-  --jaune: #f5c400;
-  --jaune-clair: #ffe066;
-  --blanc: #ffffff;
-  --gris: #555555;
-  --gris-clair: #888888;
-  --gris-fonce: #2a2a2a;
-  --vert: #2ecc71;
-  --orange: #e67e22;
-  --rouge: #e74c3c;
-  --rayon: 14px;
+/* ================= POLICES ================= */
+@font-face {
+  font-family: "Refuel";
+  src: url("/fonts/refuel.otf") format("opentype");
+  font-display: swap;
 }
 
+@font-face {
+  font-family: "Nexa";
+  src: url("/fonts/nexa-extralight.otf") format("opentype");
+  font-display: swap;
+}
+
+/* ================= COULEURS ================= */
+:root {
+  --noir: #1b2021;
+  --noir-clair: #262c2d;
+  --jaune: #eeb902;
+  --blanc: #eff1ed;
+  --gris: #5a6061;
+}
+
+/* ================= BASE ================= */
 * {
   box-sizing: border-box;
-}
-
-html, body {
   margin: 0;
   padding: 0;
-  background-color: var(--noir);
+}
+
+html,
+body {
+  background: var(--noir);
   color: var(--blanc);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: "Nexa", sans-serif;
   min-height: 100%;
 }
 
-main {
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.page {
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 24px 16px 60px;
-  gap: 24px;
+  padding: 6vh 5vw;
+  gap: 5vh;
 }
 
-/* ============================================================
-   📝 TITRES
-   ============================================================ */
-
-.titre-principal {
-  font-size: clamp(32px, 8vw, 56px);
-  font-weight: 900;
-  text-transform: uppercase;
+/* ================= TITRES ================= */
+.titre {
+  font-family: "Refuel", serif;
   color: var(--jaune);
+  text-transform: uppercase;
   text-align: center;
-  letter-spacing: 1px;
-  margin: 12px 0 0;
-  line-height: 1.1;
+  font-size: clamp(3.5rem, 14vw, 10rem);
+  line-height: 0.95;
+  letter-spacing: 0.02em;
 }
 
 .sous-titre {
-  font-size: clamp(20px, 5vw, 28px);
-  font-weight: 700;
-  color: var(--blanc);
-  text-align: center;
-  margin: 0;
-}
-
-.texte {
-  font-size: 16px;
-  color: var(--gris-clair);
-  text-align: center;
-  max-width: 480px;
-  line-height: 1.5;
-}
-
-/* ============================================================
-   🔘 BOUTONS
-   ============================================================ */
-
-.bouton {
-  background-color: var(--jaune);
-  color: var(--noir);
-  border: none;
-  border-radius: var(--rayon);
-  padding: 16px 28px;
-  font-size: 17px;
-  font-weight: 800;
+  font-family: "Refuel", serif;
+  color: var(--jaune);
   text-transform: uppercase;
-  cursor: pointer;
-  transition: transform 0.15s ease, opacity 0.15s ease;
-  width: 100%;
-  max-width: 340px;
+  text-align: center;
+  font-size: clamp(2rem, 8vw, 5rem);
 }
 
-.bouton:hover:not(:disabled) {
-  transform: scale(1.03);
-}
-
-.bouton:disabled {
-  background-color: var(--gris);
-  color: var(--gris-clair);
-  cursor: not-allowed;
-}
-
-.bouton-secondaire {
-  background-color: transparent;
-  color: var(--blanc);
-  border: 2px solid var(--gris);
-}
-
-/* ============================================================
-   🔢 PAGE COMPTE À REBOURS
-   ============================================================ */
-
-.compte-a-rebours {
+/* ================= COMPTE À REBOURS ================= */
+.compte {
+  flex: 1;
   display: flex;
-  gap: 16px;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 24px;
+  align-items: center;
+  gap: clamp(1rem, 4vw, 3rem);
 }
 
-.bloc-temps {
-  background-color: var(--noir-carte);
-  border: 1px solid var(--gris-fonce);
-  border-radius: var(--rayon);
-  padding: 20px 18px;
-  min-width: 80px;
-  text-align: center;
+.bloc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: clamp(4.5rem, 18vw, 11rem);
 }
 
-.bloc-temps .valeur {
-  font-size: 40px;
-  font-weight: 900;
-  color: var(--jaune);
-  display: block;
-}
-
-.bloc-temps .label {
-  font-size: 13px;
-  color: var(--gris-clair);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-/* ============================================================
-   🔐 PAGE CODE D'ACCÈS
-   ============================================================ */
-
-.champ-code {
-  background-color: var(--noir-carte);
-  border: 2px solid var(--gris-fonce);
-  border-radius: var(--rayon);
+.chiffre {
+  font-family: "Refuel", serif;
   color: var(--blanc);
-  font-size: 22px;
-  text-align: center;
-  padding: 16px;
+  font-size: clamp(4rem, 17vw, 11rem);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.label {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: clamp(0.7rem, 2.5vw, 1rem);
+  opacity: 0.8;
+  margin-top: 0.5rem;
+}
+
+/* ================= VIDÉO ================= */
+.video {
   width: 100%;
-  max-width: 280px;
-  letter-spacing: 4px;
-}
-
-.champ-code:focus {
-  outline: none;
-  border-color: var(--jaune);
-}
-
-.message-erreur {
-  color: var(--rouge);
-  font-weight: 700;
-  text-align: center;
-}
-
-/* ============================================================
-   🎬 VIDÉOS (briefing, mini-jeux, reveal)
-   ============================================================ */
-
-.video-container {
-  width: 100%;
-  max-width: 640px;
+  max-width: 960px;
   aspect-ratio: 16 / 9;
-  border-radius: var(--rayon);
+  border: 2px solid var(--jaune);
+  border-radius: 12px;
   overflow: hidden;
-  background-color: var(--noir-carte);
-  border: 1px solid var(--gris-fonce);
+  background: #000;
 }
 
-.video-container iframe {
+.video iframe {
   width: 100%;
   height: 100%;
-  border: none;
+  border: 0;
   display: block;
 }
 
 .video-vide {
-  width: 100%;
-  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--gris-clair);
-  font-size: 14px;
   text-align: center;
-  padding: 20px;
+  padding: 1rem;
+  opacity: 0.7;
 }
 
-/* ============================================================
-   📊 TABLEAU DE BORD — BARRE DE PROGRESSION
-   ============================================================ */
+/* ================= BOUTON ================= */
+.bouton {
+  font-family: "Refuel", serif;
+  text-transform: uppercase;
+  font-size: clamp(1.3rem, 5vw, 2rem);
+  letter-spacing: 0.05em;
+  background: var(--jaune);
+  color: var(--noir);
+  border: none;
+  border-radius: 999px;
+  padding: 0.8em 2em;
+  cursor: pointer;
+  transition: transform 0.15s, opacity 0.15s;
+  display: inline-block;
+  text-align: center;
+}
 
-.barre-progression-container {
+.bouton:hover {
+  transform: scale(1.04);
+}
+
+.bouton:disabled {
+  opacity: 0.5;
+  cursor: wait;
+  transform: none;
+}
+
+.bouton-secondaire {
+  background: transparent;
+  color: var(--blanc);
+  border: 2px solid var(--blanc);
+}
+
+/* ================= TEXTES ================= */
+.texte {
+  text-align: center;
+  font-size: clamp(0.95rem, 3vw, 1.2rem);
+  line-height: 1.5;
+  max-width: 700px;
+}
+
+.erreur {
+  color: #ff6b6b;
+  text-align: center;
+}
+
+/* ================= BARRE DE PROGRESSION ================= */
+.progression {
   width: 100%;
-  max-width: 480px;
-  position: relative;
-  padding-top: 28px;
+  max-width: 700px;
 }
 
-.barre-progression-fond {
+.progression-infos {
+  display: flex;
+  justify-content: space-between;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: clamp(0.75rem, 2.5vw, 0.95rem);
+  margin-bottom: 0.8rem;
+}
+
+.barre {
+  position: relative;
   width: 100%;
   height: 22px;
-  background-color: var(--noir-carte);
-  border: 1px solid var(--gris-fonce);
+  background: var(--noir-clair);
+  border: 2px solid var(--gris);
   border-radius: 999px;
-  overflow: hidden;
-  position: relative;
+  overflow: visible;
 }
 
-.barre-progression-remplie {
+.barre-remplie {
   height: 100%;
-  background-color: var(--jaune);
+  background: var(--jaune);
   border-radius: 999px;
-  transition: width 0.4s ease;
+  transition: width 0.8s ease;
+  box-shadow: 0 0 12px rgba(238, 185, 2, 0.5);
 }
 
-.barre-progression-objectif {
+.barre-objectif {
   position: absolute;
   top: -8px;
   bottom: -8px;
   width: 3px;
-  background-color: var(--blanc);
-}
-
-.barre-progression-objectif-label {
-  position: absolute;
-  top: -26px;
+  background: var(--blanc);
+  border-radius: 2px;
   transform: translateX(-50%);
-  font-size: 11px;
-  color: var(--blanc);
-  text-transform: uppercase;
-  font-weight: 700;
+}
+
+.barre-objectif-label {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
   white-space: nowrap;
-}
-
-/* ============================================================
-   🃏 CARTES MINI-JEUX
-   ============================================================ */
-
-.liste-mini-jeux {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  width: 100%;
-  max-width: 480px;
-}
-
-.carte-mini-jeu {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: var(--noir-carte);
-  border: 2px solid var(--jaune);
-  border-radius: var(--rayon);
-  padding: 18px 20px;
-  text-decoration: none;
-  color: var(--blanc);
-  font-size: 18px;
-  font-weight: 700;
-  transition: transform 0.15s ease;
-}
-
-.carte-mini-jeu:hover {
-  transform: scale(1.02);
-}
-
-.carte-mini-jeu-faite {
-  border-color: var(--gris-fonce);
-  color: var(--gris-clair);
-  text-decoration: line-through;
-  opacity: 0.7;
-}
-
-.carte-mini-jeu-verrouillee {
-  border-color: var(--gris-fonce);
-  color: var(--gris);
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-.carte-mini-jeu-etiquette {
-  font-size: 12px;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  font-weight: 800;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background-color: var(--gris-fonce);
-  color: var(--gris-clair);
 }
 
-/* ============================================================
-   🎮 CONTENU GÉNÉRIQUE D'UN MINI-JEU
-   ============================================================ */
-
-.contenu-mini-jeu {
+/* ================= CARTES MINI-JEUX ================= */
+.cartes {
   width: 100%;
-  max-width: 480px;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.carte {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.3rem 1.5rem;
+  border-radius: 14px;
+  border: 2px solid var(--gris);
+  background: var(--noir-clair);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.carte-titre {
+  font-family: "Refuel", serif;
+  text-transform: uppercase;
+  font-size: clamp(1.6rem, 6vw, 2.4rem);
+  letter-spacing: 0.03em;
+}
+
+.carte-etat {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+}
+
+/* Prochain jeu : accessible */
+.carte-active {
+  border-color: var(--jaune);
+  cursor: pointer;
+  box-shadow: 0 0 18px rgba(238, 185, 2, 0.25);
+}
+
+.carte-active .carte-titre,
+.carte-active .carte-etat {
+  color: var(--jaune);
+}
+
+.carte-active:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 26px rgba(238, 185, 2, 0.45);
+}
+
+/* Jeu déjà fait : rayé */
+.carte-faite {
+  opacity: 0.6;
+}
+
+.carte-faite .carte-titre {
+  text-decoration: line-through;
+  text-decoration-thickness: 3px;
+}
+
+/* Jeu à venir : grisé */
+.carte-verrouillee {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* ================= ZONE TEST (provisoire) ================= */
+.zone-test {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+
+/* ================= MINI-JEUX : LAYOUT COMMUN ================= */
+.mini-jeu-video {
+  width: 100%;
+  max-width: 960px;
+}
+
+.contenu-jeu {
+  width: 100%;
+  max-width: 700px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 1.5rem;
 }
 
 .message-info {
-  background-color: var(--noir-carte);
-  border: 1px solid var(--jaune);
-  border-radius: var(--rayon);
-  padding: 14px 18px;
   text-align: center;
-  color: var(--jaune-clair);
-  font-weight: 600;
-  max-width: 420px;
+  font-size: clamp(0.9rem, 3vw, 1.1rem);
+  background: var(--noir-clair);
+  border: 2px solid var(--jaune);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  max-width: 700px;
 }
 
-/* ============================================================
-   🧠 MASTERMIND — MINI-JEU 1
-   ============================================================ */
-
-.mastermind-grille {
+/* ================= MASTERMIND (mini-jeu 1) ================= */
+.mastermind {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0.8rem;
   align-items: center;
 }
 
-.mastermind-ligne {
+.ligne-mastermind {
   display: flex;
-  gap: 8px;
+  gap: 0.5rem;
+  align-items: center;
 }
 
-.mastermind-case {
-  width: 44px;
-  height: 44px;
-  border-radius: 8px;
-  background-color: var(--noir-carte);
-  border: 2px solid var(--gris-fonce);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  font-weight: 800;
+.case-chiffre {
+  width: clamp(2.5rem, 9vw, 3.5rem);
+  height: clamp(2.5rem, 9vw, 3.5rem);
+  border: 2px solid var(--gris);
+  border-radius: 10px;
+  background: var(--noir-clair);
   color: var(--blanc);
+  font-family: "Refuel", serif;
+  font-size: clamp(1.3rem, 5vw, 1.8rem);
+  text-align: center;
+  outline: none;
 }
 
-.mastermind-case-active {
+.case-chiffre:focus {
   border-color: var(--jaune);
 }
 
-.mastermind-case-verte {
-  background-color: var(--vert);
-  border-color: var(--vert);
+.case-chiffre:disabled {
+  opacity: 1;
+}
+
+.case-verte {
+  background: #2e7d32 !important;
+  border-color: #2e7d32 !important;
+  color: white !important;
+}
+
+.case-rouge-existe {
+  background: #b8860b !important;
+  border-color: #b8860b !important;
+  color: white !important;
+}
+
+.case-rouge {
+  background: #7a1f1f !important;
+  border-color: #7a1f1f !important;
+  color: white !important;
+}
+
+.bouton-valider-ligne {
+  font-family: "Nexa", sans-serif;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  background: var(--jaune);
   color: var(--noir);
+  border: none;
+  border-radius: 8px;
+  padding: 0.6em 1em;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
-.mastermind-case-orange {
-  background-color: var(--orange);
-  border-color: var(--orange);
-  color: var(--noir);
+.bouton-valider-ligne:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
 }
 
-.mastermind-case-rouge {
-  background-color: var(--gris-fonce);
-  border-color: var(--gris);
-  color: var(--gris-clair);
+/* ================= QUIZ (mini-jeux 2 et 3) ================= */
+.quiz {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  align-items: center;
 }
-
-/* ============================================================
-   ❓ QUIZ — MINI-JEUX 2 ET 3
-   ============================================================ */
 
 .quiz-question {
-  font-size: 19px;
-  font-weight: 700;
+  font-family: "Refuel", serif;
+  color: var(--jaune);
   text-align: center;
-  color: var(--blanc);
-  margin: 0;
+  font-size: clamp(1.3rem, 5vw, 1.8rem);
+  text-transform: uppercase;
 }
 
 .quiz-propositions {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0.7rem;
   width: 100%;
 }
 
-.quiz-bouton-proposition {
-  background-color: var(--noir-carte);
-  border: 2px solid var(--gris-fonce);
+.quiz-option {
+  font-family: "Nexa", sans-serif;
+  font-size: clamp(0.95rem, 3vw, 1.1rem);
+  background: var(--noir-clair);
   color: var(--blanc);
-  border-radius: var(--rayon);
-  padding: 14px 18px;
-  font-size: 16px;
-  font-weight: 600;
+  border: 2px solid var(--gris);
+  border-radius: 12px;
+  padding: 0.9em 1.2em;
   cursor: pointer;
   text-align: center;
-  transition: border-color 0.15s ease;
+  transition: border-color 0.15s, transform 0.15s;
 }
 
-.quiz-bouton-proposition:hover {
+.quiz-option:hover {
   border-color: var(--jaune);
 }
 
-.quiz-bouton-proposition-selectionnee {
+.quiz-option-selectionnee {
   border-color: var(--jaune);
-  background-color: #2a2408;
+  background: #33301a;
 }
 
-.quiz-bouton-proposition-correcte {
-  background-color: var(--vert);
-  border-color: var(--vert);
-  color: var(--noir);
-}
-
-.quiz-bouton-proposition-incorrecte {
-  background-color: var(--rouge);
-  border-color: var(--rouge);
-  color: var(--noir);
-}
-
-.quiz-bouton-proposition:disabled {
+.quiz-option:disabled {
   cursor: not-allowed;
 }
 
-.quiz-reponse-correcte-texte {
-  color: var(--vert);
-  font-weight: 700;
+.quiz-option-correcte {
+  background: #2e7d32 !important;
+  border-color: #2e7d32 !important;
+  color: white !important;
+}
+
+.quiz-option-incorrecte {
+  background: #7a1f1f !important;
+  border-color: #7a1f1f !important;
+  color: white !important;
+}
+
+.quiz-reponse-affichee {
   text-align: center;
+  font-size: 0.95rem;
+  opacity: 0.85;
 }
 
-.quiz-photo-reveal {
+.quiz-photo {
   width: 100%;
-  max-width: 320px;
-  border-radius: var(--rayon);
-  margin-top: 10px;
+  max-width: 400px;
+  border-radius: 12px;
+  border: 2px solid var(--jaune);
+  margin-top: 0.5rem;
 }
 
-/* ============================================================
-   📷 MINI-JEU 4 — PHOTO
-   ============================================================ */
+.quiz-progression {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
 
+/* ================= PHOTO UPLOAD (mini-jeu 4) ================= */
 .zone-photo {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 1rem;
   align-items: center;
   width: 100%;
 }
 
-.zone-photo input[type="file"] {
-  display: none;
+.zone-photo-boutons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
 }
 
-.bouton-photo-apercu {
-  width: 100%;
-  max-width: 280px;
-  border-radius: var(--rayon);
+.apercu-photo {
+  max-width: 300px;
+  max-height: 300px;
+  border-radius: 12px;
   border: 2px solid var(--jaune);
 }
 
-/* ============================================================
-   🃏 MINI-JEU 5 — SOUVENIRS
-   ============================================================ */
+.input-cache {
+  display: none;
+}
 
-.liste-souvenirs {
+/* ================= 2 VRAIS 1 FAUX (mini-jeu 5) ================= */
+.souvenirs {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  width: 100%;
+  gap: 1rem;
 }
 
 .carte-souvenir {
-  background-color: var(--noir-carte);
-  border: 2px solid var(--gris-fonce);
-  border-radius: var(--rayon);
-  padding: 16px 18px;
-  font-size: 15px;
-  color: var(--blanc);
+  background: var(--noir-clair);
+  border: 2px solid var(--gris);
+  border-radius: 14px;
+  padding: 1.3rem 1.5rem;
   cursor: pointer;
-  transition: border-color 0.15s ease;
+  font-size: clamp(0.95rem, 3vw, 1.1rem);
+  transition: border-color 0.15s, transform 0.15s;
 }
 
 .carte-souvenir:hover {
   border-color: var(--jaune);
+  transform: scale(1.01);
 }
 
 .carte-souvenir-selectionnee {
   border-color: var(--jaune);
-  background-color: #2a2408;
+  background: #33301a;
 }
 
 .carte-souvenir-correcte {
-  border-color: var(--vert);
-  background-color: #103d20;
+  border-color: #2e7d32;
+  background: #1e3a1f;
 }
 
 .carte-souvenir-incorrecte {
-  border-color: var(--rouge);
-  background-color: #3d1010;
-}
-
-/* ============================================================
-   📱 RESPONSIVE
-   ============================================================ */
-
-@media (max-width: 420px) {
-  .mastermind-case {
-    width: 36px;
-    height: 36px;
-    font-size: 16px;
-  }
-
-  .bloc-temps {
-    min-width: 64px;
-    padding: 14px 10px;
-  }
-
-  .bloc-temps .valeur {
-    font-size: 30px;
-  }
+  border-color: #7a1f1f;
+  background: #3a1e1e;
 }
