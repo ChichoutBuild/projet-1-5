@@ -9,7 +9,7 @@ const config = {
 
   // 🎬 Liens YouTube généraux
   videoBriefing: "https://youtu.be/EQ69EeGk3ac",
-  videoRevealPositif: "",
+  videoRevealPositif: "https://youtu.be/H4v2rRfkyqQ",
   videoRevealNegatif: "",
 
   // 🎯 Nombre de mini-jeux réussis nécessaires pour gagner
