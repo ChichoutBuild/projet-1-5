@@ -22,7 +22,7 @@ const config = {
       numero: 1,
       nom: "Un code pour débraquer Sacha…",
       // 👉👉👉 LIEN VIDÉO BRIEFING MINI-JEU 1 ICI 👈👈👈
-      video: "",
+      video: "https://youtu.be/vhIk81BoSZQ",
       code: "180425", // le code à 6 chiffres à trouver
       tentativesMax: 5,
     },
