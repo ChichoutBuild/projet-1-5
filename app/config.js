@@ -8,7 +8,7 @@ const config = {
   dateFin: "2026-09-27T15:24:00+02:00",
 
   // 🎬 Liens YouTube généraux
-  videoBriefing: "",
+  videoBriefing: "https://youtu.be/DNrkIur_mpY",
   videoRevealPositif: "",
   videoRevealNegatif: "",
 
