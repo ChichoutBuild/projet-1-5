@@ -69,3 +69,21 @@ export async function enregistrerResultat(numero, reussi) {
   }
   return true;
 }
+
+// Envoie une photo dans le bucket "photos" et renvoie son lien public
+export async function envoyerPhoto(fichier) {
+  const extension = fichier.name.split(".").pop();
+  const nom = `photo-couple-${Date.now()}.${extension}`;
+
+  const { error } = await supabase.storage
+    .from("photos")
+    .upload(nom, fichier);
+
+  if (error) {
+    console.error("Erreur Supabase (upload photo) :", error.message);
+    return null;
+  }
+
+  const { data } = supabase.storage.from("photos").getPublicUrl(nom);
+  return data.publicUrl;
+}
