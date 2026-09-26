@@ -549,3 +549,104 @@ a {
   border-color: #7a1f1f;
   background: #3a1e1e;
 }
+/* ============================================================
+   🛠️ PAGE ADMIN
+   ============================================================ */
+
+.admin-resume {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.admin-section {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding-top: 20px;
+  border-top: 1px solid var(--gris-fonce);
+}
+
+.admin-carte {
+  width: 100%;
+  background-color: var(--noir-carte);
+  border: 1px solid var(--gris-fonce);
+  border-radius: var(--rayon);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-carte-entete {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+}
+
+.admin-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+
+.admin-bouton-petit {
+  width: auto;
+  flex: 1;
+  min-width: 90px;
+  padding: 10px 12px;
+  font-size: 13px;
+}
+
+.admin-bouton-rouge {
+  background-color: var(--rouge);
+  color: var(--blanc);
+}
+
+.admin-statut-reussi {
+  background-color: var(--vert);
+  color: var(--noir);
+}
+
+.admin-statut-echoue {
+  background-color: var(--rouge);
+  color: var(--blanc);
+}
+
+.admin-statut-attente {
+  background-color: var(--orange);
+  color: var(--noir);
+}
+
+.admin-statut-vide {
+  background-color: var(--gris-fonce);
+  color: var(--gris-clair);
+}
+
+.admin-photos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+}
+
+.admin-photo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.admin-photo img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid var(--jaune);
+}
