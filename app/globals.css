@@ -665,3 +665,17 @@ a {
 .trigger-warning strong {
   color: #fff;
 }
+.declaration {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 8px 60px;
+  text-align: left;
+}
+
+.declaration-paragraphe {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 24px;
+  white-space: pre-line;
+}
