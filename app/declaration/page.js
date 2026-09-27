@@ -21,6 +21,7 @@ const PARAGRAPHES = [
   "Mon amour, aies confiance en toi, tu le mérites, et tu es une des rares personnes qui peut te le permettre. Tu es adorable, attentionnée, gentille, giga mignonne, hilarante, intelligente, généreuse, hyper affectueuse, incroyable, exceptionnelle, merveilleuse, lumineuse, la plus belle personne que j’ai jamais vu (mais genre vraiment), et la liste pourrait être encore extrêmement longue (genre vraimennnnt). ",
   "MON AMOUR. Tu es incroyablement magnifique, mais genre vraiment très très beaucoup. Tu n’imagines pas le nombre d’heures (j’abuse pas tant) que j’ai passé à regarder tes / nos photos et à juste me dire : “mais wow comment c’est possible qu’elle soit aussi belle ?” et maintenant que je t’ai vu à tous les moments (sauf en train de chier malheureusement…), je peux l’affirmer, il n’y a pas une seconde où tu n'est pas magnifique ! Mais genre vraiment. Toi au naturel, pas coiffée, pas maquillée, pas propre, tu foudroies 99,99999999% de la population (la part qui reste c’est moi 😁) et je veux que tu t’en rendes compte ! Tu es teeeellement belle que je comprends pas comment tu peux ne pas le penser ! Mon amour tu es une déesse !",
   "Breffff merci pour ces 1 an et demi, merci d’être toi, merci d’être aussi incroyable, merci de faire autant d’efforts, je t’aime plus que tout ❤️🫶",
+  "Si jamais les cadeaux sont pas finis hein 😘",
 ];
 // ============================================================
 
