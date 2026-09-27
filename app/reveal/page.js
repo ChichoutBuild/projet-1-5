@@ -57,6 +57,10 @@ export default function Reveal() {
           </div>
         )}
       </div>
+
+      <button className="bouton" onClick={() => router.push("/declaration")}>
+        Lire la suite
+      </button>
     </main>
   );
 }
