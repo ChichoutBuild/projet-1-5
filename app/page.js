@@ -82,7 +82,7 @@ export default function CompteARebours() {
       <main className="page">
         <h1 className="titre">Projet 1.5</h1>
         <div className="compte">
-          <h2 className="sous-titre">C'est l'heure ❤️</h2>
+          <h2 className="sous-titre">Chargement....</h2>
         </div>
       </main>
     );
