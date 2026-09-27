@@ -55,6 +55,12 @@ export default function Briefing() {
     <main className="page">
       <h1 className="titre">Briefing</h1>
 
+      <p className="trigger-warning">
+        <strong>Trigger Warning :</strong> Tout ce qui va être présenté ensuite
+        n'est que fiction (inspirée de la réalité hein mdr) mais donc faut pas
+        prendre les scènes décrites au premier degré.
+      </p>
+
       <div className="video">
         {id ? (
           <iframe
