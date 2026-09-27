@@ -650,3 +650,18 @@ a {
   border-radius: 10px;
   border: 2px solid var(--jaune);
 }
+.trigger-warning {
+  max-width: 720px;
+  margin: 0 auto 24px;
+  padding: 14px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.trigger-warning strong {
+  color: #fff;
+}
